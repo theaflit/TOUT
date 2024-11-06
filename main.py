@@ -111,11 +111,10 @@ def menu_button():
     markup.add(btn1)
     return markup
 
-bot.polling(none_stop=True)
-#while True:
-#    try:
-#        # перезапуск бота при обнаружении ошибки
-#        bot.polling(none_stop=True)
-#    except Exception as e:
-#        print(f"Ошибка: {e}. Перезапуск через 5 секунд...")
-#        time.sleep(5)
+while True:
+    try:
+        # перезапуск бота при обнаружении ошибки
+        bot.polling(none_stop=True)
+    except Exception as e:
+        print(f"Ошибка: {e}. Перезапуск через 5 секунд...")
+        time.sleep(5)
