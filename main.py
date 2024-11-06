@@ -2,6 +2,7 @@ import time
 
 import telebot
 
+from googletrans import Translator
 from database import *
 from insert_audio import *
 from telebot import types
@@ -9,9 +10,12 @@ from config import Config
 from summatization import summarization_text
 from interact_yadisk import get_video, video_to_audio, get_all_files
 
+
 token = Config.token_telegram
 admin_id = Config.admin_id
+
 bot = telebot.TeleBot(token)
+translator = Translator()
 
 dir_name = Config.dir_name
 
@@ -68,9 +72,12 @@ def send_question(message):
 
         bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
-        summary = summarization_text(message.text)
+        text = translate_ru_en(message.text)
+        summary = summarization_text(text)
+        text = translate_en_ru(summary)
+
         bot.send_message(message.chat.id, f"Вот ваш сокращенный текст:")
-        bot.send_message(message.chat.id, f"{summary}", reply_markup=markup)
+        bot.send_message(message.chat.id, f"{text}", reply_markup=markup)
 
         set_send_question(message.chat.id, 0)
 
@@ -91,7 +98,11 @@ def ya_disk_create_notes(message):
         convert_to_wav("audio_files/file1.mp3")
         text = audio_to_text("audio_files/file1.wav")
 
-        text = summarization_text(text)
+        text = translate_ru_en(text)
+
+        text = (summarization_text(text))
+
+        text = translate_en_ru(text)
 
         bot.send_message(message.chat.id, "Вот ваш сокращенный текст")
         bot.send_message(message.chat.id, text, reply_markup=markup)
@@ -111,10 +122,28 @@ def menu_button():
     markup.add(btn1)
     return markup
 
+
+def translate_ru_en(text):
+    translated = translator.translate(text, src='ru', dest='en')
+
+    return translated.text
+
+
+def translate_en_ru(text):
+    translated = translator.translate(text, src='en', dest='ru')
+
+    return translated.text
+
+
 while True:
     try:
         # перезапуск бота при обнаружении ошибки
         bot.polling(none_stop=True)
+
+    except telebot.apihelper.ApiTelegramException:
+        print("Токен телеграмм бота был введен неправильно, проверьте корректность....")
+        time.sleep(5)
+
     except Exception as e:
         print(f"Ошибка: {e}. Перезапуск через 5 секунд...")
         time.sleep(5)
