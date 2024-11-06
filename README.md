@@ -22,7 +22,7 @@
 
 ## Запуск
 
-1) Клонируйте репозиторий ```bash git clone https://github.com/theaflit/TOUT```
+1) Клонируйте репозиторий ```bash git clone https://github.com/theaflit/TOUT
 1) После клонирования вы должны настроить файл `config.py`, token_telegram - токен вашего бота телеграмм, token_yadisk - токен яндекс диска, dir_name - папка яндекс диска с видео
 2) Для запуска телеграмм бота --> запуск файла main.py
 3) В случае изменения названия папки с хранящейся нейросетью в файле  `config` изменить параметр model_path, tokenizer_path
