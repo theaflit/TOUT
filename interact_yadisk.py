@@ -13,6 +13,8 @@ dir_name = Config.dir_name
 def get_all_files(dir_name):
     return list(y.listdir(dir_name))
 
+
+# папки для сохранения видео и аудио
 video_file_path = 'video_files'
 audio_file_path = 'audio_files'
 
@@ -31,6 +33,8 @@ def video_to_audio(files):
             print(f"Конвертирован {current_mp4} в {current_mp3}")
         except Exception as e:
             print(f"Ошибка при конвертации {current_mp4} в аудио: {e}")
+
+
 def get_video(folder_path, raw_files):
     """Скачивание видео файлов с яндекс диска"""
     files = []
